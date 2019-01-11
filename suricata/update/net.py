@@ -67,7 +67,8 @@ def build_user_agent():
     params.append("CPU: %s" % (platform.machine()))
     params.append("Python: %s" % (platform.python_version()))
 
-    if uname_system == "Linux":
+    py_vtuple = tuple(map(int, platform.python_version_tuple()))
+    if uname_system == "Linux" and py_vtuple < (3, 5, 0):
         distribution = platform.linux_distribution()
         params.append("Dist: %s/%s" % (
             str(distribution[0]), str(distribution[1])))
