@@ -34,6 +34,8 @@ def register(parser):
     parser.add_argument("url", metavar="<url>", nargs="?", help="Source URL")
     parser.add_argument("--http-header", metavar="<http-header>",
                         help="Additional HTTP header to add to requests")
+    parser.add_argument("--no-checksum", action="store_true",
+                         help="Skips checking of checksum")
     parser.set_defaults(func=add_source)
 
 def add_source():
@@ -59,7 +61,9 @@ def add_source():
             if url:
                 break
 
+    no_checksum = args.no_checksum if args.no_checksum else False
+
     header = args.http_header if args.http_header else None
 
-    source_config = sources.SourceConfiguration(name, header=header, url=url)
+    source_config = sources.SourceConfiguration(name, header=header, url=url, no_checksum=no_checksum)
     sources.save_source_config(source_config)

@@ -370,9 +370,16 @@ class Fetch:
                     "Last download less than 15 minutes ago. Not downloading %s.",
                     url)
                 return self.extract_files(tmp_filename)
-            if self.check_checksum(tmp_filename, url):
-                logger.info("Remote checksum has not changed. Not fetching.")
-                return self.extract_files(tmp_filename)
+            enabled_sources = sources.get_enabled_sources()
+            for (name, source) in enabled_sources.items():
+                if source.get("no-checksum"):
+                    check_checksum = False
+                else:
+                    check_checksum = True
+                if check_checksum:
+                    if self.check_checksum(tmp_filename, url):
+                        logger.info("Remote checksum has not changed. Not fetching.")
+                        return self.extract_files(tmp_filename)
         if not os.path.exists(config.get_cache_dir()):
             os.makedirs(config.get_cache_dir(), mode=0o770)
         logger.info("Fetching %s." % (url))
