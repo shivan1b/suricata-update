@@ -15,6 +15,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+import sys
 import os.path
 import logging
 
@@ -155,6 +156,9 @@ def init(args):
     _args = args
     _config.update(DEFAULT_CONFIG)
 
+    if args.subcommand != "update":
+        logging.disable(sys.maxsize)
+
     if args.config:
         logger.info("Loading %s", args.config)
         with open(args.config, "rb") as fileobj:
@@ -235,3 +239,4 @@ def init(args):
                 logger.info("Using %s for Suricata provided rules.", path)
                 _config[DIST_RULE_DIRECTORY_KEY] = path
                 break
+    logging.disable(logging.NOTSET)

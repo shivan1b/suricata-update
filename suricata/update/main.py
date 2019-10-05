@@ -1251,6 +1251,8 @@ def _main():
 
     suricata_path = config.get("suricata")
 
+    if args.subcommand != "update":
+        logging.disable(sys.maxsize)
     # Now parse the Suricata version. If provided on the command line,
     # use that, otherwise attempt to get it from Suricata.
     if args.suricata_version:
@@ -1272,9 +1274,11 @@ def _main():
             return 1
     else:
         logger.info(
-            "Using default Suricata version of %s", DEFAULT_SURICATA_VERSION)
+                "Using default Suricata version of %s", DEFAULT_SURICATA_VERSION)
         suricata_version = suricata.update.engine.parse_version(
             DEFAULT_SURICATA_VERSION)
+
+    logging.disable(logging.NOTSET)
 
     # Provide the Suricata version to the net module to add to the
     # User-Agent.
