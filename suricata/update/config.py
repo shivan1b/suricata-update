@@ -52,9 +52,11 @@ OUTPUT_KEY = "output"
 DIST_RULE_DIRECTORY_KEY = "dist-rule-directory"
 
 if has_defaults:
-    DEFAULT_UPDATE_YAML_PATH = os.path.join(defaults.sysconfdir, "update.yaml")
+    SYSCONF_DIR = defaults.sysconfdir
 else:
-    DEFAULT_UPDATE_YAML_PATH = "/etc/suricata/update.yaml"
+    SYSCONF_DIR = "/etc/suricata"
+
+DEFAULT_UPDATE_YAML_PATH = os.path.join(SYSCONF_DIR, "update.yaml")
 
 DEFAULT_SURICATA_YAML_PATH = [
     "/etc/suricata/suricata.yaml",

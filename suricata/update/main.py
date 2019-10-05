@@ -1062,6 +1062,22 @@ def check_output_directory(output_dir):
                 "Failed to create directory %s: %s" % (
                     output_dir, err))
 
+def merge_classification_conf():
+    config_fname = "classification.config"
+    default_config_path = os.path.join(config.SYSCONF_DIR, fname)
+    rule_dir = os.path.join(config.CACHE_DIRECTORY, rules)
+    for filename in glob.glob(os.path.join(rule_dir, config_fname))):
+        with open(filename) as fp:
+            content = fp.read()
+
+    with open(default_config_path, "a") as fp:
+        fp.write("\n")
+        fp.write(content)
+
+
+def check_classification_conf():
+    merge_classification_conf()
+
 def _main():
     global args
 
